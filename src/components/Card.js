@@ -3,6 +3,7 @@ import { Box, Button, Paper, Typography } from "@material-ui/core";
 
 const Card = ({ card, toggleLiked }) => {
   console.log("liked status", card.liked);
+
   return (
     <Box variant="sm" m={4}>
       <Paper elevation={5}>

@@ -20,17 +20,37 @@ import AuthProvider, { useAuth } from "../contexts/AuthContext";
 const Home = () => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState("");
-  const { logout, histor, cardRef } = useAuth();
-  const pokeapi = "https://pokeapi.co/api/v2/pokemon?offset=300&limit=10";
+  const { logout, history, cardRef } = useAuth();
+  const pokeapi = "https://pokeapi.co/api/v2/pokemon?offset=300&limit=25";
+
+  const getCards = () => {
+    cardRef.onSnapshot((querySnapshot) => {
+      const items = [];
+      querySnapshot.forEach((doc) => {
+        items.push(doc.data());
+      });
+      setCards(items);
+    });
+  };
 
   useEffect(() => {
-    console.log("Fetching...");
     axios
       .get(pokeapi)
       .then((res) => {
-        setCards(res.data.results);
+        res.data.results.map((data) => {
+          const index = data.url.split("/")[data.url.split("/").length - 2];
+
+          console.log(cardRef.doc(index).id);
+          if (cardRef.doc(index).id !== index) {
+            cardRef
+              .doc(index)
+              .set({ id: index, name: data.name, url: data.url, liked: false });
+          } else {
+          }
+        });
       })
       .catch((error) => console.log(error));
+    getCards();
   }, []);
 
   const handleSearch = (e) => {
@@ -49,8 +69,20 @@ const Home = () => {
       .doc(card.id)
       .update({ liked: !card.liked })
       .then(() => {
-        console.log("fetched");
-        setReload((prev) => !prev);
+        console.log("Toggle successfully triggered!");
+      })
+      .catch((error) => {
+        console.error("Error toggleing document: ", error);
+      });
+  };
+
+  const deleteCard = () => {
+    console.log(cardRef);
+    cardRef
+      .doc()
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted!");
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
@@ -81,6 +113,7 @@ const Home = () => {
                 </Typography>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
                   <Button onClick={handleLogout}>Logout</Button>
+                  <Button onClick={() => deleteCard}>delete</Button>
                 </Typography>
               </Box>
 
@@ -95,27 +128,9 @@ const Home = () => {
               />
               <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={1}>
                 {filteredCards.map((card) => {
-                  const _url = card.url;
-                  const index = _url.split("/")[_url.split("/").length - 2];
-                  card.id = index;
-
-                  if (cardRef.doc(card.id)) {
-                    cardRef
-                      .doc(card.id)
-                      .get()
-                      .then((doc) => {
-                        card.liked = doc.data().liked;
-                      });
-                    return (
-                      <Card key={index} card={card} toggleLiked={toggleLiked} />
-                    );
-                  } else {
-                    alert("new cards are loaded");
-                    cardRef.doc(card.id).set({ liked: false });
-                    return (
-                      <Card key={index} card={card} toggleLiked={toggleLiked} />
-                    );
-                  }
+                  return (
+                    <Card key={card.id} card={card} toggleLiked={toggleLiked} />
+                  );
                 })}
               </Box>
             </Container>
