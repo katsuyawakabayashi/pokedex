@@ -68,6 +68,7 @@ const AuthProvider = ({ children }) => {
     history,
     error,
     setError,
+    cardRef,
   };
 
   return (

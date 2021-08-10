@@ -10,11 +10,12 @@ const Card = ({ card, toggleLiked }) => {
             <Box flex-direction="column">
               <Typography variant="h6">#{card.id}</Typography>
               <Typography variant="h4">{card.name}</Typography>
+
               {card.liked ? (
                 <Button
                   variant="contained"
                   color="secondary"
-                  onClick={() => toggleLiked(card.id)}
+                  onClick={() => toggleLiked(card)}
                 >
                   Unlike
                 </Button>
@@ -22,7 +23,7 @@ const Card = ({ card, toggleLiked }) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => toggleLiked(card.id)}
+                  onClick={() => toggleLiked(card)}
                 >
                   Like
                 </Button>
