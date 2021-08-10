@@ -1,20 +1,20 @@
 import React from "react";
-import { Box, Button, Container, Paper, Typography } from "@material-ui/core";
+import { Box, Button, Paper, Typography } from "@material-ui/core";
 
-const Card = ({ name, liked, id, toggleLiked }) => {
+const Card = ({ card, toggleLiked }) => {
   return (
     <Box variant="sm" m={4}>
       <Paper elevation={5}>
         <Box p={6} bgcolor="primary.main">
           <Box display="flex" justifyContent="center" alignItems="center">
             <Box flex-direction="column">
-              <Typography variant="h6">#{id}</Typography>
-              <Typography variant="h4">{name}</Typography>
-              {liked ? (
+              <Typography variant="h6">#{card.id}</Typography>
+              <Typography variant="h4">{card.name}</Typography>
+              {card.liked ? (
                 <Button
                   variant="contained"
-                  color="primary"
-                  onClick={() => toggleLiked(id)}
+                  color="secondary"
+                  onClick={() => toggleLiked(card.id)}
                 >
                   Unlike
                 </Button>
@@ -22,7 +22,7 @@ const Card = ({ name, liked, id, toggleLiked }) => {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={() => toggleLiked(id)}
+                  onClick={() => toggleLiked(card.id)}
                 >
                   Like
                 </Button>

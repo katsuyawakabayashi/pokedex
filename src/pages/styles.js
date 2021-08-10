@@ -5,11 +5,23 @@ export const theme = createTheme({
     background: {
       default: "#111",
     },
+    // primary: {
+    //   main: "#303030",
+    // },
+    // secondary: {
+    //   main: "#C5AB63",
+    // },
     primary: {
-      main: "#303030",
+      light: "#757ce8",
+      main: "#3f50b5",
+      dark: "#002884",
+      contrastText: "#fff",
     },
     secondary: {
-      main: "#C5AB63",
+      light: "#ff7961",
+      main: "#f44336",
+      dark: "#ba000d",
+      contrastText: "#000",
     },
     text: {
       primary: "#ffffff",

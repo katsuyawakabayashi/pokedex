@@ -21,15 +21,16 @@ const Home = () => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState("");
   const { logout, history } = useAuth();
+  const pokeapi = "https://pokeapi.co/api/v2/pokemon?offset=300&limit=10";
 
   useEffect(() => {
     axios
-      .get("https://pokeapi.co/api/v2/pokemon?offset=300&limit=10")
+      .get(pokeapi)
       .then((res) => {
         setCards(res.data.results);
       })
       .catch((error) => console.log(error));
-  });
+  }, []);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -41,8 +42,6 @@ const Home = () => {
   );
 
   const toggleLiked = (id) => {
-    console.log("Toggle Liked", cards);
-
     let newCards = cards.map((card) => {
       console.log("card", card.id);
       if (card.id === id) {
@@ -93,16 +92,10 @@ const Home = () => {
                 {filteredCards.map((card) => {
                   const _url = card.url;
                   const index = _url.split("/")[_url.split("/").length - 2];
+                  card.id = index;
+
                   return (
-                    <Card
-                      key={index}
-                      id={index}
-                      name={card.name}
-                      url={_url}
-                      liked={false}
-                      cards={cards}
-                      toggleLiked={toggleLiked}
-                    />
+                    <Card key={index} card={card} toggleLiked={toggleLiked} />
                   );
                 })}
               </Box>
