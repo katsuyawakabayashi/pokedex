@@ -23,7 +23,6 @@ const Home = () => {
   const { logout, histor, cardRef } = useAuth();
   const pokeapi = "https://pokeapi.co/api/v2/pokemon?offset=300&limit=10";
 
-  var count = "init";
   useEffect(() => {
     console.log("Fetching...");
     axios
@@ -34,8 +33,6 @@ const Home = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  // everytime card changes
-
   const handleSearch = (e) => {
     setSearch(e.target.value);
     console.log(e.target.value);
@@ -45,35 +42,20 @@ const Home = () => {
     card.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  const [reload, setReload] = useState(false);
+
   const toggleLiked = (card) => {
-    // let newCards = cards.map((card) => {
-    //   if (card.id === id) {
-    //     card.liked = !card.liked;
-    //   }
-    //   return card;
-    // });
-    // setCards(newCards);
     cardRef
       .doc(card.id)
       .update({ liked: !card.liked })
       .then(() => {
-        console.log("Toggle triggered");
-        axios
-          .get(pokeapi)
-          .then((res) => {
-            setCards(res.data.results);
-          })
-          .catch((error) => console.log(error));
         console.log("fetched");
+        setReload((prev) => !prev);
       })
       .catch((error) => {
         console.error("Error removing document: ", error);
       });
   };
-
-  useEffect(() => {
-    console.log("...");
-  }, [cards]);
 
   const handleLogout = async () => {
     try {
@@ -113,27 +95,27 @@ const Home = () => {
               />
               <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap={1}>
                 {filteredCards.map((card) => {
-                  // rendering
                   const _url = card.url;
                   const index = _url.split("/")[_url.split("/").length - 2];
                   card.id = index;
-                  card.liked = false;
+
                   if (cardRef.doc(card.id)) {
-                    // if existing card
                     cardRef
                       .doc(card.id)
                       .get()
                       .then((doc) => {
-                        console.log(doc.data().liked);
                         card.liked = doc.data().liked;
                       });
+                    return (
+                      <Card key={index} card={card} toggleLiked={toggleLiked} />
+                    );
                   } else {
-                    // if new card set liked false
+                    alert("new cards are loaded");
                     cardRef.doc(card.id).set({ liked: false });
+                    return (
+                      <Card key={index} card={card} toggleLiked={toggleLiked} />
+                    );
                   }
-                  return (
-                    <Card key={index} card={card} toggleLiked={toggleLiked} />
-                  );
                 })}
               </Box>
             </Container>

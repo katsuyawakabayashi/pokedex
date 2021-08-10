@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Button, Paper, Typography } from "@material-ui/core";
 
 const Card = ({ card, toggleLiked }) => {
+  console.log("liked status", card.liked);
   return (
     <Box variant="sm" m={4}>
       <Paper elevation={5}>
@@ -14,18 +15,18 @@ const Card = ({ card, toggleLiked }) => {
               {card.liked ? (
                 <Button
                   variant="contained"
-                  color="secondary"
-                  onClick={() => toggleLiked(card)}
-                >
-                  Unlike
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
                   color="primary"
                   onClick={() => toggleLiked(card)}
                 >
                   Like
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="secondary"
+                  onClick={() => toggleLiked(card)}
+                >
+                  Unlike
                 </Button>
               )}
             </Box>
