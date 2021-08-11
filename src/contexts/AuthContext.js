@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { auth, firestore } from "../firebase";
 
@@ -42,9 +42,9 @@ const AuthProvider = ({ children }) => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(false);
       setCurrentUser(user);
-      {
-        currentUser && console.log(currentUser);
-      }
+
+      currentUser && console.log(currentUser);
+
       if (user) {
         console.log("Looged in as ", user);
         history.push("/");

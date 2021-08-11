@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  CardActions,
-  CardContent,
-  Paper,
-  Typography,
-} from "@material-ui/core";
+import { Box, Button, CardContent, Paper, Typography } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -26,7 +19,7 @@ const Card = ({ card, toggleLiked }) => {
               <CardContent>
                 <Typography variant="h6">#{card.id}</Typography>
                 <Typography variant="h4">{card.name}</Typography>
-                <img src={card.image} />
+                <img src={card.image} alt="card" />
               </CardContent>
 
               {card.liked ? (

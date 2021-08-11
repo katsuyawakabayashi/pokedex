@@ -1,17 +1,9 @@
 import {
-  Box,
   Button,
   Grid,
-  Input,
-  InputLabel,
-  TextField,
   Typography,
-  Alert,
   CssBaseline,
-  Paper,
-  Card,
   ButtonGroup,
-  Container,
   Link,
   makeStyles,
 } from "@material-ui/core";
@@ -19,7 +11,6 @@ import React, { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 
 import { useAuth } from "../contexts/AuthContext";
-import PokeballLoading from "../assets/pokeball_loading.gif";
 
 const Login = () => {
   const { history, login } = useAuth();

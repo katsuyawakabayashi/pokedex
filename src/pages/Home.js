@@ -12,12 +12,10 @@ import {
   ThemeProvider,
   Typography,
   Button,
-  Grid,
 } from "@material-ui/core";
 import Card from "../components/Card";
 import theme from "./styles";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const [cards, setCards] = useState([]);
@@ -69,8 +67,6 @@ const Home = () => {
   const filteredCards = cards.filter((card) =>
     card.name.toLowerCase().includes(search.toLowerCase())
   );
-
-  const [reload, setReload] = useState(false);
 
   const toggleLiked = (card) => {
     cardRef
