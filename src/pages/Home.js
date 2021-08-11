@@ -176,7 +176,7 @@ const Home = () => {
             <Container maxWidth="md" align="center">
               <Box m={3}>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
-                  Welcome to Pokedex, Logged in as{" "}
+                  Welcome to Pokedex, logged in as{" "}
                   {currentUser && currentUser.email}
                 </Typography>
                 <Typography color="textPrimary" variant="h5" gutterBottom>

@@ -6,6 +6,7 @@ import {
   ButtonGroup,
   Link,
   makeStyles,
+  BottomNavigation,
 } from "@material-ui/core";
 import React, { useRef, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
@@ -99,7 +100,7 @@ const Login = () => {
             spacing={5}
           >
             <Grid item>
-              <Typography variant="h5">Login</Typography>
+              <Typography variant="h5">Pokedex Login</Typography>
             </Grid>
             <Grid item>
               <input
@@ -134,7 +135,6 @@ const Login = () => {
                     Signup
                   </Link>
                 </Button>
-
                 <Button
                   size="small"
                   variant="contained"
@@ -146,6 +146,9 @@ const Login = () => {
                 </Button>
               </ButtonGroup>
             </Grid>
+            <Typography variant="span" style={{ opacity: 0.3 }}>
+              <a href="https://github.com/katsuyawakabayashi">Created by KW</a>
+            </Typography>
           </Grid>
         </form>
       </Grid>
