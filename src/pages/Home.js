@@ -57,7 +57,7 @@ const Home = () => {
       })
       .catch((error) => console.log(error));
     getCards();
-  }, [cardRef, getCards]); // eslint-disable-line
+  }, []); // eslint-disable-line
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
