@@ -12,6 +12,7 @@ import {
   ThemeProvider,
   Typography,
   Button,
+  ButtonGroup,
 } from "@material-ui/core";
 import Card from "../components/Card";
 import theme from "./styles";
@@ -80,13 +81,19 @@ const Home = () => {
       });
   };
 
-  const deleteUnlikedCard = () => {
+  const deleteUnlikedCards = () => {
     cards.forEach((card) => {
       console.log(card.liked);
       if (!card.liked) {
         cardRef.doc(card.id).delete();
         console.log("following has been deleted:", card.id);
       }
+    });
+  };
+  const deleteCards = () => {
+    cards.forEach((card) => {
+      console.log(card.liked);
+      cardRef.doc(card.id).delete();
     });
   };
 
@@ -173,10 +180,20 @@ const Home = () => {
                   {currentUser && currentUser.email}
                 </Typography>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
-                  <Button onClick={() => deleteUnlikedCard()}>
-                    Delete unliked
-                  </Button>
-                  <Button onClick={() => reloadApi()}>Reset</Button>
+                  <ButtonGroup>
+                    <Button
+                      variant="contained"
+                      onClick={() => deleteUnlikedCards()}
+                    >
+                      Delete unliked
+                    </Button>
+                    <Button variant="contained" onClick={() => deleteCards()}>
+                      Delete all
+                    </Button>
+                    <Button variant="contained" onClick={() => reloadApi()}>
+                      Restart
+                    </Button>
+                  </ButtonGroup>
                 </Typography>
               </Box>
 
