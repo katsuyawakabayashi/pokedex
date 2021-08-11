@@ -1,27 +1,32 @@
-import React from "react";
-import { Box, Button, Paper, Typography } from "@material-ui/core";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  CardActions,
+  CardContent,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const Card = ({ card, toggleLiked }) => {
-  console.log("liked status", card.liked);
-
+  const [toggle, setToggle] = useState(false);
+  const toggleStatus = (card) => {
+    setToggle((prev) => !prev);
+  };
   return (
     <Box variant="sm" m={4}>
       <Paper elevation={5}>
         <Box p={6} bgcolor="primary.main">
           <Box display="flex" justifyContent="center" alignItems="center">
             <Box flex-direction="column">
-              <Typography variant="h6">#{card.id}</Typography>
-              <Typography variant="h4">{card.name}</Typography>
+              <CardContent>
+                <Typography variant="h6">#{card.id}</Typography>
+                <Typography variant="h3">{card.name}</Typography>
+                <img src={card.image} />
+              </CardContent>
 
               {card.liked ? (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => toggleLiked(card)}
-                >
-                  Like
-                </Button>
-              ) : (
                 <Button
                   variant="contained"
                   color="secondary"
@@ -29,6 +34,29 @@ const Card = ({ card, toggleLiked }) => {
                 >
                   Unlike
                 </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => toggleLiked(card)}
+                >
+                  Like
+                </Button>
+              )}
+              <Button
+                onClick={() => {
+                  toggleStatus(card.id);
+                }}
+              >
+                Lern more
+              </Button>
+              {toggle && (
+                <Alert severity="info">
+                  <AlertTitle>Types</AlertTitle>
+                  {card.type1}/{card.type2}
+                  <AlertTitle>Abilities</AlertTitle>
+                  {card.ability1}/{card.ability2}
+                </Alert>
               )}
             </Box>
           </Box>

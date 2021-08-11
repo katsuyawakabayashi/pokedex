@@ -13,7 +13,6 @@ import {
   Button,
 } from "@material-ui/core";
 import Card from "../components/Card";
-import { v4 as uuidv4 } from "uuid";
 import theme from "./styles";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
 
@@ -21,7 +20,7 @@ const Home = () => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState("");
   const { logout, history, cardRef } = useAuth();
-  const pokeapi = "https://pokeapi.co/api/v2/pokemon?offset=300&limit=25";
+  const listApi = "https://pokeapi.co/api/v2/pokemon?offset=320&limit=30";
 
   const getCards = () => {
     cardRef.onSnapshot((querySnapshot) => {
@@ -35,18 +34,24 @@ const Home = () => {
 
   useEffect(() => {
     axios
-      .get(pokeapi)
+      .get(listApi)
       .then((res) => {
         res.data.results.map((data) => {
           const index = data.url.split("/")[data.url.split("/").length - 2];
-
-          console.log(cardRef.doc(index).id);
-          if (cardRef.doc(index).id !== index) {
-            cardRef
-              .doc(index)
-              .set({ id: index, name: data.name, url: data.url, liked: false });
-          } else {
-          }
+          axios.get(`https://pokeapi.co/api/v2/pokemon/${index}`).then((rs) => {
+            //console.log(cardRef.doc(index).id);
+            if (index !== cardRef.doc(index).id) {
+              console.log(rs.data.sprites.front_default);
+              cardRef.doc(index).set({
+                id: index,
+                name: data.name,
+                url: data.url,
+                liked: false,
+                image: rs.data.sprites.front_default,
+              });
+            } else {
+            }
+          });
         });
       })
       .catch((error) => console.log(error));
@@ -77,22 +82,58 @@ const Home = () => {
   };
 
   const deleteCard = () => {
-    console.log(cardRef);
-    cardRef
-      .doc()
-      .delete()
-      .then(() => {
-        console.log("Document successfully deleted!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-      });
+    cards.map((card) => {
+      console.log(card.liked);
+      if (!card.liked) {
+        cardRef.doc(card.id).delete();
+        console.log("following has been deleted:", card.id);
+      }
+    });
   };
 
   const handleLogout = async () => {
     try {
       await logout();
     } catch {}
+  };
+
+  const reloadApi = () => {
+    axios
+      .get(listApi)
+      .then((res) => {
+        res.data.results.map((data) => {
+          const index = data.url.split("/")[data.url.split("/").length - 2];
+          axios.get(`https://pokeapi.co/api/v2/pokemon/${index}`).then((rs) => {
+            //console.log(rs.data.types[0].type.name);
+            var tp2;
+            var ab2;
+            try {
+              tp2 = rs.data.types[1].type.name;
+            } catch {
+              tp2 = "NA";
+            }
+
+            try {
+              ab2 = rs.data.abilities[1].type.name;
+            } catch {
+              ab2 = "NA";
+            }
+
+            cardRef.doc(index).set({
+              id: index,
+              name: data.name,
+              url: data.url,
+              liked: false,
+              image: rs.data.sprites.front_default,
+              type1: rs.data.types[0].type.name,
+              type2: tp2,
+              ability1: rs.data.abilities[0].ability.name,
+              ability2: ab2,
+            });
+          });
+        });
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -113,7 +154,8 @@ const Home = () => {
                 </Typography>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
                   <Button onClick={handleLogout}>Logout</Button>
-                  <Button onClick={() => deleteCard}>delete</Button>
+                  <Button onClick={() => deleteCard()}>Delete</Button>
+                  <Button onClick={() => reloadApi()}>Reset</Button>
                 </Typography>
               </Box>
 
