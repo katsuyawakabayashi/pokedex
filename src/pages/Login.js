@@ -12,9 +12,14 @@ import {
   Card,
   ButtonGroup,
   Container,
+  Link,
+  makeStyles,
 } from "@material-ui/core";
 import React, { useRef, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
+
 import { useAuth } from "../contexts/AuthContext";
+import PokeballLoading from "../assets/pokeball_loading.gif";
 
 const Login = () => {
   const { history, login } = useAuth();
@@ -37,76 +42,123 @@ const Login = () => {
     setLoading(false);
   };
 
-  return (
-    <Container>
-      <CssBaseline />
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center"
-        height="100vh"
-      >
-        <Paper
-          color="primary"
-          style={{
-            padding: 50,
-            border: "1px solid black",
-            backgroundColor: "gray",
-          }}
-        >
-          <form onSubmit={handleSubmitSignup}>
-            {error && <div>{error}</div>}
+  const useStyles = makeStyles((theme) => ({
+    root: {
+      height: "100vh",
+      color: "black",
+    },
+    image: {
+      backgroundImage:
+        "url(https://cdn.dribbble.com/users/621155/screenshots/2835314/simple_pokeball.gif)",
+      backgroundRepeat: "no-repeat",
 
-            <Grid
-              container
-              direction="column"
-              justifyContent="center"
-              alignItems="center"
-              spacing={5}
-            >
-              <Grid item xs={12}>
-                <Typography variant="h4">Login</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  ref={emailRef}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <input
-                  type="password"
-                  id="pwd"
-                  name="pwd"
-                  placeholder="Password"
-                  ref={passwordRef}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <ButtonGroup>
-                  <Button
-                    size="small"
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                  >
-                    Login
-                  </Button>
-                  <Button size="small" variant="contained" color="secondary">
-                    Signup
-                  </Button>
-                </ButtonGroup>
-              </Grid>
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    },
+    login: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#3f50b5",
+    },
+    paper: {
+      margin: theme.spacing(8, 4),
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+    },
+
+    form: {
+      width: "100%", // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submit: {
+      margin: theme.spacing(3, 0, 2),
+    },
+    input: {
+      width: "fitContent",
+      height: "35px",
+      outline: "none",
+      border: "0.05rem solid",
+      background: "transparent",
+      textAlign: "center",
+      borderRadius: "50px",
+      color: "#fff",
+      "&:focus": {
+        border: "0.05rem solid #4caf50",
+      },
+    },
+  }));
+
+  const classes = useStyles();
+  return (
+    <Grid container component="main" className={classes.root}>
+      <CssBaseline />
+      <Grid item xs={false} sm={7} className={classes.image} />
+      <Grid item xs={12} sm={5} className={classes.login}>
+        <form onSubmit={handleSubmitSignup}>
+          {error && <div>{error}</div>}
+
+          <Grid
+            container
+            direction="column"
+            justifyContent="center"
+            alignItems="center"
+            spacing={5}
+          >
+            <Grid item>
+              <Typography variant="h5">Login</Typography>
             </Grid>
-          </form>
-        </Paper>
-      </Box>
-    </Container>
+            <Grid item>
+              <input
+                className={classes.input}
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Email"
+                ref={emailRef}
+                required
+              />
+            </Grid>
+            <Grid item>
+              <input
+                className={classes.input}
+                type="password"
+                id="pwd"
+                name="pwd"
+                placeholder="Password"
+                ref={passwordRef}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <ButtonGroup>
+                <Button size="small" variant="contained">
+                  <Link
+                    component={RouterLink}
+                    to="/signup"
+                    style={{ textDecoration: "none", color: "#111" }}
+                  >
+                    Signup
+                  </Link>
+                </Button>
+
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="secondary"
+                  type="submit"
+                  style={{ backgroundColor: "#4caf50" }}
+                >
+                  Login
+                </Button>
+              </ButtonGroup>
+            </Grid>
+          </Grid>
+        </form>
+      </Grid>
+    </Grid>
   );
 };
 

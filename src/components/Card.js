@@ -8,6 +8,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Alert, AlertTitle } from "@material-ui/lab";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 
 const Card = ({ card, toggleLiked }) => {
   const [toggle, setToggle] = useState(false);
@@ -22,17 +25,17 @@ const Card = ({ card, toggleLiked }) => {
             <Box flex-direction="column">
               <CardContent>
                 <Typography variant="h6">#{card.id}</Typography>
-                <Typography variant="h3">{card.name}</Typography>
+                <Typography variant="h4">{card.name}</Typography>
                 <img src={card.image} />
               </CardContent>
 
               {card.liked ? (
                 <Button
                   variant="contained"
-                  color="secondary"
+                  color="primary"
                   onClick={() => toggleLiked(card)}
                 >
-                  Unlike
+                  <FavoriteIcon color="secondary" />
                 </Button>
               ) : (
                 <Button
@@ -40,7 +43,7 @@ const Card = ({ card, toggleLiked }) => {
                   color="primary"
                   onClick={() => toggleLiked(card)}
                 >
-                  Like
+                  <FavoriteBorderIcon color="secondary" />
                 </Button>
               )}
               <Button
@@ -49,6 +52,7 @@ const Card = ({ card, toggleLiked }) => {
                 }}
               >
                 Lern more
+                <ExpandMoreIcon />
               </Button>
               {toggle && (
                 <Alert severity="info">

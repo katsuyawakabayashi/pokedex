@@ -1,4 +1,5 @@
 import { createTheme } from "@material-ui/core";
+import green from "@material-ui/core/colors/green";
 
 export const theme = createTheme({
   palette: {
@@ -23,16 +24,29 @@ export const theme = createTheme({
       dark: "#ba000d",
       contrastText: "#000",
     },
+    optional: {
+      light: green[500],
+      main: green[500],
+      dark: green[500],
+      contrastText: "#000",
+    },
     text: {
       primary: "#ffffff",
     },
   },
   typography: {
-    fontFamily: "Karla",
-
-    h6: {
-      fontWeight: 600,
-    },
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
   },
 });
 

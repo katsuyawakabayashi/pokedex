@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import PokeBall from "../assets/pokeball.svg";
 
 import {
   AppBar,
@@ -11,15 +12,17 @@ import {
   ThemeProvider,
   Typography,
   Button,
+  Grid,
 } from "@material-ui/core";
 import Card from "../components/Card";
 import theme from "./styles";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState("");
-  const { logout, history, cardRef } = useAuth();
+  const { logout, currentUser, cardRef } = useAuth();
   const listApi = "https://pokeapi.co/api/v2/pokemon?offset=320&limit=30";
 
   const getCards = () => {
@@ -81,7 +84,7 @@ const Home = () => {
       });
   };
 
-  const deleteCard = () => {
+  const deleteUnlikedCard = () => {
     cards.map((card) => {
       console.log(card.liked);
       if (!card.liked) {
@@ -143,18 +146,39 @@ const Home = () => {
           <CssBaseline />
           <AppBar position="relative" color="primary">
             <Toolbar>
-              <Typography variant="h6">Pokedex</Typography>
+              <Box
+                display="flex"
+                flexDirection="center"
+                alignItems="center"
+                m={2}
+              >
+                <Typography variant="h6">Pokedex</Typography>
+                <Box
+                  display="flex"
+                  flexDirection="center"
+                  alignItems="center"
+                  p={1}
+                >
+                  <img
+                    style={{ width: "1rem", height: "1rem" }}
+                    src={PokeBall}
+                  />
+                </Box>
+              </Box>
+              <Button onClick={handleLogout}>Logout</Button>
             </Toolbar>
           </AppBar>
           <main>
             <Container maxWidth="md" align="center">
               <Box m={3}>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
-                  Choose your favorite pokemon
+                  Welcome to Pokedex, Logged in as{" "}
+                  {currentUser && currentUser.email}
                 </Typography>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
-                  <Button onClick={handleLogout}>Logout</Button>
-                  <Button onClick={() => deleteCard()}>Delete</Button>
+                  <Button onClick={() => deleteUnlikedCard()}>
+                    Delete unliked
+                  </Button>
                   <Button onClick={() => reloadApi()}>Reset</Button>
                 </Typography>
               </Box>
@@ -162,7 +186,7 @@ const Home = () => {
               <TextField
                 id="search"
                 variant="outlined"
-                color="secondary"
+                color="primary"
                 placeholder="Search here"
                 onChange={handleSearch}
                 required
