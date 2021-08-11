@@ -13,7 +13,7 @@ import { Link as RouterLink } from "react-router-dom";
 
 const Signup = () => {
   const { history, signup } = useAuth();
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const emailRef = useRef();

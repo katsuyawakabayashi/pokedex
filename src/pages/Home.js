@@ -37,7 +37,7 @@ const Home = () => {
     axios
       .get(listApi)
       .then((res) => {
-        res.data.results.map((data) => {
+        res.data.results.forEach((data) => {
           const index = data.url.split("/")[data.url.split("/").length - 2];
           axios.get(`https://pokeapi.co/api/v2/pokemon/${index}`).then((rs) => {
             //console.log(cardRef.doc(index).id);
@@ -57,7 +57,7 @@ const Home = () => {
       })
       .catch((error) => console.log(error));
     getCards();
-  }, []);
+  }, [cardRef, getCards]); // eslint-disable-line
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
@@ -81,7 +81,7 @@ const Home = () => {
   };
 
   const deleteUnlikedCard = () => {
-    cards.map((card) => {
+    cards.forEach((card) => {
       console.log(card.liked);
       if (!card.liked) {
         cardRef.doc(card.id).delete();
@@ -100,7 +100,7 @@ const Home = () => {
     axios
       .get(listApi)
       .then((res) => {
-        res.data.results.map((data) => {
+        res.data.results.forEach((data) => {
           const index = data.url.split("/")[data.url.split("/").length - 2];
           axios.get(`https://pokeapi.co/api/v2/pokemon/${index}`).then((rs) => {
             //console.log(rs.data.types[0].type.name);
@@ -158,6 +158,7 @@ const Home = () => {
                   <img
                     style={{ width: "1rem", height: "1rem" }}
                     src={PokeBall}
+                    alt="pokeball"
                   />
                 </Box>
               </Box>

@@ -55,7 +55,7 @@ const AuthProvider = ({ children }) => {
     });
 
     return unsubscribe;
-  }, []);
+  }, [currentUser, history]);
 
   const value = {
     currentUser,

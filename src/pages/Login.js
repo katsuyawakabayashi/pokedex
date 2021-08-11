@@ -14,7 +14,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
   const { history, login } = useAuth();
-  const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const emailRef = useRef();

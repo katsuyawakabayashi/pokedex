@@ -12,13 +12,13 @@ const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <Switch>
-          <ThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <Switch>
             <PrivateRoute exact path="/" component={Home} />
             <Route path="/signup" component={Signup} />
             <Route path="/login" component={Login} />
-          </ThemeProvider>
-        </Switch>
+          </Switch>
+        </ThemeProvider>
       </AuthProvider>
     </Router>
   );
