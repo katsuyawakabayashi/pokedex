@@ -19,10 +19,11 @@ import theme from "./styles";
 import AuthProvider, { useAuth } from "../contexts/AuthContext";
 
 const Home = () => {
+  const listApi = "https://pokeapi.co/api/v2/pokemon?offset=320&limit=10";
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState("");
+  const [loadNext, setLoadNext] = useState(listApi);
   const { logout, currentUser, cardRef } = useAuth();
-  const listApi = "https://pokeapi.co/api/v2/pokemon?offset=320&limit=30";
 
   const getCards = () => {
     cardRef.onSnapshot((querySnapshot) => {
@@ -176,7 +177,7 @@ const Home = () => {
             <Container maxWidth="md" align="center">
               <Box m={3}>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
-                  Welcome to Pokedex, logged in as{" "}
+                  Welcome to Pokedex, ogged in as{" "}
                   {currentUser && currentUser.email}
                 </Typography>
                 <Typography color="textPrimary" variant="h5" gutterBottom>
