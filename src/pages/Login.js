@@ -146,7 +146,7 @@ const Login = () => {
                 </Button>
               </ButtonGroup>
             </Grid>
-            <Typography variant="span" style={{ opacity: 0.3 }}>
+            <Typography style={{ opacity: 0.3 }}>
               <a href="https://github.com/katsuyawakabayashi">Created by KW</a>
             </Typography>
           </Grid>
